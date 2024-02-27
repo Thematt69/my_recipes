@@ -1,0 +1,71 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Builds Android
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.1.1
+      - name: Configure Signature
+        run: |
+          echo "${{ secrets.KEY_PROPERTIES }}" > android/key.properties
+          echo "${{ secrets.RELEASE_KEYSTORE }}" > upload-keystore.encoded
+          base64 -d -i upload-keystore.encoded > ./android/app/keystore.jks
+      - uses: actions/setup-java@v3
+        with:
+          distribution: "zulu"
+          java-version: "12.x"
+      - uses: subosito/flutter-action@v2.12.0
+        with:
+          flutter-version: ${{ vars.FLUTTER_VERSION }}
+          cache: true
+          cache-key: flutter ${{ vars.FLUTTER_VERSION }}
+      - name: Configure Flutter
+        run: |
+          flutter config --no-analytics
+          flutter pub get
+      - name: Build AppBundle Release
+        run: flutter build appbundle --release --no-tree-shake-icons
+      - name: Push build to Releases
+        uses: actions/upload-artifact@v3.1.3
+        with:
+          name: "build-release"
+          path: build/app/outputs/bundle/release/*.aab
+      - name: Build APK Release
+        run: flutter build apk --release --no-tree-shake-icons
+      - name: Push build to Releases
+        uses: actions/upload-artifact@v3.1.3
+        with:
+          name: "build-release"
+          path: build/app/outputs/flutter-apk/*release.apk
+
+  deploy:
+    name: Deploy web
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.1.1
+      - uses: subosito/flutter-action@v2.12.0
+        with:
+          flutter-version: ${{ vars.FLUTTER_VERSION }}
+          cache: true
+          cache-key: flutter ${{ vars.FLUTTER_VERSION }}
+      - name: Configure Flutter
+        run: |
+          flutter config --no-analytics
+          flutter pub get
+      - name: Build Web Release
+        run: flutter build web --release --no-tree-shake-icons
+      - name: Sync files FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ftp.matthieudevilliers.fr
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: build/web/
+          server-dir: /recette.matthieudevilliers.fr/

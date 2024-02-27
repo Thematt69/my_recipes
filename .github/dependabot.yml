@@ -1,0 +1,15 @@
+version: 2
+
+enable-beta-ecosystems: true
+
+updates:
+  - package-ecosystem: "pub"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+      day: "saturday"
+      time: "19:00"
+      timezone: "Europe/Paris"
+    reviewers:
+      - "Thematt69"
+    target-branch: "develop"
