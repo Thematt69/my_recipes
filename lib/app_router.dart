@@ -28,8 +28,8 @@ final goRouter = GoRouter(
     body: Center(
       child: Lottie.asset(
         Theme.of(context).brightness == Brightness.dark
-            ? 'images/404_dark_mode.json'
-            : 'images/404_light_mode.json',
+            ? 'lottie/404_dark_mode.json'
+            : 'lottie/404_light_mode.json',
       ),
     ),
   ),

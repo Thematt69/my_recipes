@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:logger/logger.dart';
 import 'package:my_recipes/app_router.dart';
 import 'package:my_recipes/blocs/bloc_provider.dart';
@@ -16,7 +17,8 @@ void main() {
   final logger = Logger();
   runZonedGuarded<Future<void>>(
     () async {
-      WidgetsFlutterBinding.ensureInitialized();
+      final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+      FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
       if (!kIsWeb) {
         PlatformDispatcher.instance.onError = (error, stack) {
@@ -43,6 +45,8 @@ void main() {
 
       await FirebaseAuth.instance.signInAnonymously();
 
+      FlutterNativeSplash.remove();
+
       runApp(const MyApp());
     },
     (error, stack) =>
@@ -67,11 +71,16 @@ class MyApp extends StatelessWidget {
             title: 'Mes recettes',
             theme: ThemeData(
               colorScheme: lightDynamicColorScheme ??
-                  ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+                  ColorScheme.fromSeed(
+                    seedColor: const Color(0xFFE45700),
+                  ),
             ),
             darkTheme: ThemeData(
               colorScheme: darkDynamicColorScheme ??
-                  ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+                  ColorScheme.fromSeed(
+                    seedColor: const Color(0xFFE45700),
+                    brightness: Brightness.dark,
+                  ),
             ),
             routeInformationParser: goRouter.routeInformationParser,
             routerDelegate: goRouter.routerDelegate,
