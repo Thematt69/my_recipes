@@ -68,4 +68,4 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: build/web/
-          server-dir: /recette.matthieudevilliers.fr/
+          server-dir: /recipe.matthieudevilliers.fr/
