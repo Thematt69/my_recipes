@@ -10,10 +10,17 @@ environment:
 
 dependencies:
   cloud_firestore: ^4.15.5
+  dynamic_color: ^1.6.9
+  equatable: ^2.0.5
   firebase_auth: ^4.17.5
   firebase_core: ^2.25.4
   flutter:
     sdk: flutter
+  flutter_native_splash: ^2.3.10
+  go_router: ^13.2.0
+  logger: ^2.0.2+1
+  lottie: ^3.1.0
+  uuid: ^4.3.3
 
 dev_dependencies:
   flutter_test:
@@ -22,3 +29,14 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/lottie/
+
+flutter_native_splash:
+  color: "#fffbff"
+  image: assets/images/logo_maskable.png
+  
+  color_dark: "#201a18"
+  image_dark: assets/images/logo_maskable.png

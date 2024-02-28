@@ -2,7 +2,7 @@
 // ignore_for_file: lines_longer_than_80_chars, avoid_classes_with_only_static_members
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
-    show defaultTargetPlatform, kIsWeb, TargetPlatform;
+    show TargetPlatform, defaultTargetPlatform, kIsWeb;
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -17,11 +17,11 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      return _web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        return android;
+        return _android;
       case TargetPlatform.iOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for ios - '
@@ -49,7 +49,7 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
+  static const FirebaseOptions _web = FirebaseOptions(
     apiKey: 'AIzaSyDEmdXNz967CZJ7_-WgpxCJrADSDKFyhic',
     appId: '1:710665672703:web:f100405312fd358041b9ca',
     messagingSenderId: '710665672703',
@@ -58,7 +58,7 @@ class DefaultFirebaseOptions {
     storageBucket: 'my-recipes-59079.appspot.com',
   );
 
-  static const FirebaseOptions android = FirebaseOptions(
+  static const FirebaseOptions _android = FirebaseOptions(
     apiKey: 'AIzaSyATJwPFFVpQLAW5U3WFRPP51auMCHqsx8U',
     appId: '1:710665672703:android:1c90eb36cb4691cd41b9ca',
     messagingSenderId: '710665672703',
