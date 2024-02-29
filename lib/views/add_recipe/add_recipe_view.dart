@@ -26,6 +26,7 @@ class _AddRecipeViewState extends State<AddRecipeView> {
   final _setupTimeController = TextEditingController();
   final _cookingTimeController = TextEditingController();
   final _standingTimeController = TextEditingController();
+  final _sourceController = TextEditingController();
   final _ingredientsController =
       ValueNotifier<List<RecipeIngredient>>([RecipeIngredient.empty()]);
   final _ingredientsIsReordering = ValueNotifier<bool>(false);
@@ -40,6 +41,7 @@ class _AddRecipeViewState extends State<AddRecipeView> {
     _setupTimeController.dispose();
     _cookingTimeController.dispose();
     _standingTimeController.dispose();
+    _sourceController.dispose();
     _ingredientsController.dispose();
     _ingredientsIsReordering.dispose();
     _stepsController.dispose();
@@ -190,6 +192,30 @@ class _AddRecipeViewState extends State<AddRecipeView> {
                       ),
                     ],
                   ),
+                  const SizedBox(height: 12),
+                  TextFormField(
+                    controller: _sourceController,
+                    decoration: const InputDecoration(
+                      labelText: 'Source',
+                      border: OutlineInputBorder(),
+                    ),
+                    keyboardType: TextInputType.url,
+                    textCapitalization: TextCapitalization.sentences,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) {
+                      if (value?.isEmpty ?? true) {
+                        return 'La source ne peut pas être vide';
+                      } else if ((value!.startsWith('http') ||
+                              value.startsWith('www')) &&
+                          !RegExp(
+                            r"((https?:www\.)|(https?:\/\/)|(www\.))[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9]{1,6}(\/[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)?",
+                            caseSensitive: false,
+                          ).hasMatch(value)) {
+                        return 'La source doit être un lien valide';
+                      }
+                      return null;
+                    },
+                  ),
                   const SizedBox(height: 16),
                   ValueListenableBuilder(
                     valueListenable: _ingredientsIsReordering,
@@ -282,6 +308,7 @@ class _AddRecipeViewState extends State<AddRecipeView> {
                                 int.tryParse(_standingTimeController.text),
                             ingredients: _ingredientsController.value,
                             steps: _stepsController.value,
+                            source: _sourceController.text,
                           );
 
                           BlocProvider.of<StoreBloc>(context).setRecipe(recipe);
