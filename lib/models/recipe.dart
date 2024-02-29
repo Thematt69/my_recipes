@@ -12,6 +12,7 @@ class Recipe extends Equatable {
     required this.standingTime,
     required this.ingredients,
     required this.steps,
+    required this.source,
   });
 
   factory Recipe.fromFirestore(Map<String, dynamic> json) {
@@ -28,6 +29,7 @@ class Recipe extends Equatable {
       steps: (json[entrySteps] as List)
           .map((e) => RecipeStep.fromFirestore(e as Map<String, dynamic>))
           .toList(),
+      source: json[entrySource] as String,
     );
   }
 
@@ -40,6 +42,7 @@ class Recipe extends Equatable {
   static const entryStandingTime = 'standingTime';
   static const entryIngredients = 'ingredients';
   static const entrySteps = 'steps';
+  static const entrySource = 'source';
 
   final String uid;
   final String title;
@@ -49,9 +52,20 @@ class Recipe extends Equatable {
   final int? standingTime;
   final List<RecipeIngredient> ingredients;
   final List<RecipeStep> steps;
+  final String source;
 
   int get totalTime =>
       (setupTime ?? 0) + (cookingTime ?? 0) + (standingTime ?? 0);
+
+  Uri? get sourceUri {
+    if (RegExp(
+      r"((https?:www\.)|(https?:\/\/)|(www\.))[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9]{1,6}(\/[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)?",
+      caseSensitive: false,
+    ).hasMatch(source)) {
+      return Uri.tryParse(source);
+    }
+    return null;
+  }
 
   Map<String, dynamic> toFirestore() => {
         entryUid: uid,
@@ -62,6 +76,7 @@ class Recipe extends Equatable {
         entryStandingTime: standingTime,
         entryIngredients: ingredients.map((e) => e.toFirestore()).toList(),
         entrySteps: steps.map((e) => e.toFirestore()).toList(),
+        entrySource: source,
       };
 
   Recipe copyWith({
@@ -73,6 +88,7 @@ class Recipe extends Equatable {
     int? standingTime,
     List<RecipeIngredient>? ingredients,
     List<RecipeStep>? steps,
+    String? source,
   }) {
     return Recipe(
       uid: uid ?? this.uid,
@@ -83,6 +99,7 @@ class Recipe extends Equatable {
       standingTime: standingTime ?? this.standingTime,
       ingredients: ingredients ?? this.ingredients,
       steps: steps ?? this.steps,
+      source: source ?? this.source,
     );
   }
 
@@ -97,6 +114,7 @@ class Recipe extends Equatable {
       standingTime,
       ingredients,
       steps,
+      source,
     ];
   }
 }

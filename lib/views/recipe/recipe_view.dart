@@ -3,6 +3,7 @@ import 'package:my_recipes/blocs/bloc_provider.dart';
 import 'package:my_recipes/blocs/store_bloc.dart';
 import 'package:my_recipes/extensions/int_extension.dart';
 import 'package:my_recipes/models/recipe.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RecipeView extends StatelessWidget {
   const RecipeView({
@@ -105,6 +106,20 @@ class RecipeView extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 2),
                     child: Text("- ${step.description}"),
                   ),
+                const SizedBox(height: 16),
+                GestureDetector(
+                  onTap: recipe.sourceUri == null
+                      ? null
+                      : () => launchUrl(recipe.sourceUri!),
+                  child: Text(
+                    "Source : ${recipe.source}",
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          decoration: recipe.sourceUri == null
+                              ? null
+                              : TextDecoration.underline,
+                        ),
+                  ),
+                ),
               ],
             ),
           ),
