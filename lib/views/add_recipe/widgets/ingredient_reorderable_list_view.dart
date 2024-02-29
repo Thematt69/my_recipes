@@ -5,9 +5,13 @@ class IngredientReorderableListView extends StatelessWidget {
   const IngredientReorderableListView({
     super.key,
     required this.ingredientsController,
+    required this.scrollController,
+    required this.isReordering,
   });
 
   final ValueNotifier<List<RecipeIngredient>> ingredientsController;
+  final ScrollController scrollController;
+  final bool isReordering;
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +19,7 @@ class IngredientReorderableListView extends StatelessWidget {
       valueListenable: ingredientsController,
       builder: (context, ingredients, _) {
         return ReorderableListView.builder(
+          scrollController: scrollController,
           buildDefaultDragHandles: false,
           shrinkWrap: true,
           itemCount: ingredients.length,
@@ -35,12 +40,14 @@ class IngredientReorderableListView extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: Row(
                 children: [
-                  ReorderableDragStartListener(
-                    key: ValueKey(ingredient.uid),
-                    index: index,
-                    child: const Icon(Icons.drag_handle),
-                  ),
-                  const SizedBox(width: 12),
+                  if (isReordering) ...[
+                    ReorderableDragStartListener(
+                      key: ValueKey(ingredient.uid),
+                      index: index,
+                      child: const Icon(Icons.drag_handle),
+                    ),
+                    const SizedBox(width: 12),
+                  ],
                   Expanded(
                     child: TextFormField(
                       initialValue: ingredient.name,
@@ -58,6 +65,7 @@ class IngredientReorderableListView extends StatelessWidget {
                         labelText: 'Ingrédient ${index + 1}*',
                         border: const OutlineInputBorder(),
                       ),
+                      textCapitalization: TextCapitalization.sentences,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
@@ -65,6 +73,7 @@ class IngredientReorderableListView extends StatelessWidget {
                         }
                         return null;
                       },
+                      autofocus: index != 0 && ingredient.name.isEmpty,
                     ),
                   ),
                   if (index != 0 && index == ingredients.length - 1) ...[

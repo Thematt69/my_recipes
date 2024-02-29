@@ -5,9 +5,13 @@ class StepReorderableListView extends StatelessWidget {
   const StepReorderableListView({
     super.key,
     required this.stepsController,
+    required this.scrollController,
+    required this.isReordering,
   });
 
   final ValueNotifier<List<RecipeStep>> stepsController;
+  final ScrollController scrollController;
+  final bool isReordering;
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +19,7 @@ class StepReorderableListView extends StatelessWidget {
       valueListenable: stepsController,
       builder: (context, steps, _) {
         return ReorderableListView.builder(
+          scrollController: scrollController,
           buildDefaultDragHandles: false,
           shrinkWrap: true,
           itemCount: steps.length,
@@ -35,12 +40,14 @@ class StepReorderableListView extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: Row(
                 children: [
-                  ReorderableDragStartListener(
-                    key: ValueKey(step.uid),
-                    index: index,
-                    child: const Icon(Icons.drag_handle),
-                  ),
-                  const SizedBox(width: 12),
+                  if (isReordering) ...[
+                    ReorderableDragStartListener(
+                      key: ValueKey(step.uid),
+                      index: index,
+                      child: const Icon(Icons.drag_handle),
+                    ),
+                    const SizedBox(width: 12),
+                  ],
                   Expanded(
                     child: TextFormField(
                       initialValue: step.description,
@@ -61,6 +68,7 @@ class StepReorderableListView extends StatelessWidget {
                       ),
                       textAlignVertical: TextAlignVertical.top,
                       keyboardType: TextInputType.multiline,
+                      textCapitalization: TextCapitalization.sentences,
                       minLines: 2,
                       maxLines: null,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -70,6 +78,7 @@ class StepReorderableListView extends StatelessWidget {
                         }
                         return null;
                       },
+                      autofocus: index != 0 && step.description.isEmpty,
                     ),
                   ),
                   if (index != 0 && index == steps.length - 1) ...[
