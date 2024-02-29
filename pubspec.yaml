@@ -1,9 +1,9 @@
 name: my_recipes
-description: "Mes recettes de cuisine"
+description: "Enregistrez et organisez vos recettes préférées avec facilité !"
 
 publish_to: 'none'
 
-version: 0.1.1+3
+version: 0.1.2+4
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
