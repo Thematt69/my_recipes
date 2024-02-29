@@ -5,7 +5,7 @@
   "display": "standalone",
   "background_color": "#0175C2",
   "theme_color": "#0175C2",
-  "description": "Mes recettes de cuisine",
+  "description": "Enregistrez et organisez vos recettes préférées avec facilité !",
   "orientation": "portrait-primary",
   "prefer_related_applications": false,
   "icons": [
