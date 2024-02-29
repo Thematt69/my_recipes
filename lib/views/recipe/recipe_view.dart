@@ -15,8 +15,9 @@ class RecipeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (uid == null) {
-      return const Scaffold(
-        body: Center(
+      return Scaffold(
+        appBar: AppBar(),
+        body: const Center(
           child: Text('Aucune recette'),
         ),
       );
@@ -27,13 +28,15 @@ class RecipeView extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Scaffold(
+            appBar: AppBar(),
             body: Center(
               child: Text('Erreur: ${snapshot.error}'),
             ),
           );
         } else if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(
-            body: Center(
+          return Scaffold(
+            appBar: AppBar(),
+            body: const Center(
               child: CircularProgressIndicator(),
             ),
           );
@@ -42,8 +45,9 @@ class RecipeView extends StatelessWidget {
         final recipe = snapshot.data;
 
         if (recipe == null) {
-          return const Scaffold(
-            body: Center(
+          return Scaffold(
+            appBar: AppBar(),
+            body: const Center(
               child: Text('Aucune recette'),
             ),
           );

@@ -19,6 +19,7 @@ class AddRecipeView extends StatefulWidget {
 
 class _AddRecipeViewState extends State<AddRecipeView> {
   final _formKey = GlobalKey<FormState>();
+  final _scrollController = ScrollController();
 
   final _titleController = TextEditingController();
   final _portionCountController = TextEditingController();
@@ -27,8 +28,10 @@ class _AddRecipeViewState extends State<AddRecipeView> {
   final _standingTimeController = TextEditingController();
   final _ingredientsController =
       ValueNotifier<List<RecipeIngredient>>([RecipeIngredient.empty()]);
+  final _ingredientsIsReordering = ValueNotifier<bool>(false);
   final _stepsController =
       ValueNotifier<List<RecipeStep>>([RecipeStep.empty()]);
+  final _stepsIsReordering = ValueNotifier<bool>(false);
 
   @override
   void dispose() {
@@ -38,7 +41,9 @@ class _AddRecipeViewState extends State<AddRecipeView> {
     _cookingTimeController.dispose();
     _standingTimeController.dispose();
     _ingredientsController.dispose();
+    _ingredientsIsReordering.dispose();
     _stepsController.dispose();
+    _stepsIsReordering.dispose();
     super.dispose();
   }
 
@@ -49,6 +54,7 @@ class _AddRecipeViewState extends State<AddRecipeView> {
         title: const Text('Ajouter une recette'),
       ),
       body: SingleChildScrollView(
+        controller: _scrollController,
         padding: const EdgeInsets.all(16),
         child: Center(
           child: ConstrainedBox(
@@ -71,6 +77,7 @@ class _AddRecipeViewState extends State<AddRecipeView> {
                       labelText: 'Titre*',
                       border: OutlineInputBorder(),
                     ),
+                    textCapitalization: TextCapitalization.sentences,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (value) {
                       if (value?.isEmpty ?? true) {
@@ -93,6 +100,7 @@ class _AddRecipeViewState extends State<AddRecipeView> {
                             FilteringTextInputFormatter.digitsOnly,
                           ],
                           keyboardType: TextInputType.number,
+                          textCapitalization: TextCapitalization.sentences,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) {
                             if (value?.isEmpty ?? true) {
@@ -116,6 +124,7 @@ class _AddRecipeViewState extends State<AddRecipeView> {
                             FilteringTextInputFormatter.digitsOnly,
                           ],
                           keyboardType: TextInputType.number,
+                          textCapitalization: TextCapitalization.sentences,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) {
                             if (value != null &&
@@ -143,6 +152,7 @@ class _AddRecipeViewState extends State<AddRecipeView> {
                             FilteringTextInputFormatter.digitsOnly,
                           ],
                           keyboardType: TextInputType.number,
+                          textCapitalization: TextCapitalization.sentences,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) {
                             if (value != null &&
@@ -166,6 +176,7 @@ class _AddRecipeViewState extends State<AddRecipeView> {
                             FilteringTextInputFormatter.digitsOnly,
                           ],
                           keyboardType: TextInputType.number,
+                          textCapitalization: TextCapitalization.sentences,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) {
                             if (value != null &&
@@ -180,28 +191,78 @@ class _AddRecipeViewState extends State<AddRecipeView> {
                     ],
                   ),
                   const SizedBox(height: 16),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Ingrédients',
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    ),
-                  ),
-                  const SizedBox(height: 12 - 8),
-                  IngredientReorderableListView(
-                    ingredientsController: _ingredientsController,
+                  ValueListenableBuilder(
+                    valueListenable: _ingredientsIsReordering,
+                    builder: (context, isReordering, _) {
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  'Ingrédients',
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall,
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  _ingredientsIsReordering.value =
+                                      !_ingredientsIsReordering.value;
+                                },
+                                child: Text(
+                                  isReordering ? 'Confirmer' : 'Réordonner',
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 12 - 8),
+                          IngredientReorderableListView(
+                            ingredientsController: _ingredientsController,
+                            scrollController: _scrollController,
+                            isReordering: isReordering,
+                          ),
+                        ],
+                      );
+                    },
                   ),
                   const SizedBox(height: 16 - 8),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Étapes',
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    ),
-                  ),
-                  const SizedBox(height: 12 - 8),
-                  StepReorderableListView(
-                    stepsController: _stepsController,
+                  ValueListenableBuilder(
+                    valueListenable: _stepsIsReordering,
+                    builder: (context, isReordering, _) {
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  'Étapes',
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall,
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  _stepsIsReordering.value =
+                                      !_stepsIsReordering.value;
+                                },
+                                child: Text(
+                                  isReordering ? 'Confirmer' : 'Réordonner',
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 12 - 8),
+                          StepReorderableListView(
+                            stepsController: _stepsController,
+                            scrollController: _scrollController,
+                            isReordering: isReordering,
+                          ),
+                        ],
+                      );
+                    },
                   ),
                   const SizedBox(height: 16 - 8),
                   Align(
