@@ -12,8 +12,8 @@ dependencies:
   cloud_firestore: ^4.15.6
   dynamic_color: ^1.6.9
   equatable: ^2.0.5
+  firebase_core: ^2.25.5
   firebase_auth: ^4.17.6
-  firebase_core: ^2.25.4
   flutter:
     sdk: flutter
   flutter_native_splash: ^2.3.10
