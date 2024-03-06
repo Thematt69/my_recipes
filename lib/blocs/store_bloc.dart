@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:logger/logger.dart';
 import 'package:my_recipes/blocs/bloc_provider.dart';
 import 'package:my_recipes/models/recipe.dart';
+import 'package:my_recipes/models/unit.dart';
 
 class StoreBloc extends BlocBase {
   final _logger = Logger();
@@ -39,6 +40,28 @@ class StoreBloc extends BlocBase {
       );
     }
   }
+
+  Future<Recipe?> getRecipe(String? uid) {
+    if (uid == null) return Future.value();
+    return _recipesCollectionReference
+        .doc(uid)
+        .get()
+        .then((value) => value.data());
+  }
+
+  /// Collection pour la table `units` avec la conversion via le model `Unit`
+  final CollectionReference<Unit> _unitsCollectionReference = FirebaseFirestore
+      .instance
+      .collection(Unit.collectionName)
+      .withConverter<Unit>(
+        fromFirestore: (snapshot, _) => Unit.fromFirestore(snapshot.data()!),
+        toFirestore: (value, _) => value.toFirestore(),
+      );
+
+  Future<List<Unit>> get units => _unitsCollectionReference
+      .orderBy(Unit.entryLabel)
+      .get()
+      .then((value) => value.docs.map((e) => e.data()).toList());
 
   @override
   void dispose() {}

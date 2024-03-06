@@ -13,7 +13,7 @@ class Ingredient extends Equatable {
   final String uid;
   final String label;
 
-  // TODO: Define ingrediant details
+  // TODO(Matthieu): Define ingrediant details
 
   Ingredient copyWith({
     String? uid,

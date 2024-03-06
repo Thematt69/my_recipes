@@ -12,8 +12,6 @@ import 'package:uuid/uuid.dart';
 /// 0.01 gramme = 1 centigrammes - yCCH2o3xw2QwUMuiDO52
 /// 1000 grammes = 1 kilogramme - Bwg8Hw8pXelKYnODQZBz
 ///
-/// Unité(s) - Zt0jjCoVcfjEVYCe5m53
-///
 /// Cuillière(s) à soupe rase(s) - 3sWDbdrUca3VxE3zhhUe
 ///
 /// Cuillière(s) à café rase(s) - vSvrUFjhVGa8AFzOvUXw
@@ -36,7 +34,6 @@ class Unit extends Equatable {
           "Both masterUnit and masterFactor must be set or both must be null.",
         );
 
-  // TODO: Get units from Firestore
   factory Unit.fromFirestore(Map<String, dynamic> json) {
     return Unit(
       uid: json[entryUid] as String,
@@ -44,7 +41,7 @@ class Unit extends Equatable {
       masterUnit: json[entryMasterUnit] == null
           ? null
           : Unit.fromFirestore(json[entryMasterUnit] as Map<String, dynamic>),
-      masterFactor: json[entryMasterFactor] as int?,
+      masterFactor: json[entryMasterFactor] as double?,
     );
   }
 
@@ -59,14 +56,14 @@ class Unit extends Equatable {
   final String uid;
   final String label;
   final Unit? masterUnit;
-  final int? masterFactor;
+  final double? masterFactor;
 
   Map<String, dynamic> toFirestore() {
     return {
       entryUid: uid,
       entryLabel: label,
-      if (masterUnit != null) entryMasterUnit: masterUnit!.toFirestore(),
-      if (masterFactor != null) entryMasterFactor: masterFactor,
+      entryMasterUnit: masterUnit?.toFirestore(),
+      entryMasterFactor: masterFactor,
     };
   }
 
@@ -74,7 +71,7 @@ class Unit extends Equatable {
     String? uid,
     String? label,
     Unit? masterUnit,
-    int? masterFactor,
+    double? masterFactor,
   }) {
     return Unit(
       uid: uid ?? this.uid,
