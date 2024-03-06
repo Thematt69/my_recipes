@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:my_recipes/models/recipe_ingredient.dart';
+import 'package:my_recipes/models/unit.dart';
 
 class IngredientReorderableListView extends StatelessWidget {
   const IngredientReorderableListView({
@@ -7,11 +9,13 @@ class IngredientReorderableListView extends StatelessWidget {
     required this.ingredientsController,
     required this.scrollController,
     required this.isReordering,
+    required this.units,
   });
 
   final ValueNotifier<List<RecipeIngredient>> ingredientsController;
   final ScrollController scrollController;
   final bool isReordering;
+  final List<Unit> units;
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +62,8 @@ class IngredientReorderableListView extends StatelessWidget {
                         newIngredients[index] = RecipeIngredient(
                           uid: ingredient.uid,
                           name: value,
+                          quantity: ingredient.quantity,
+                          unit: ingredient.unit,
                         );
                         ingredientsController.value = newIngredients;
                       },
@@ -76,6 +82,77 @@ class IngredientReorderableListView extends StatelessWidget {
                       autofocus: index != 0 && ingredient.name.isEmpty,
                     ),
                   ),
+                  const SizedBox(width: 12),
+                  SizedBox(
+                    width: 120,
+                    child: TextFormField(
+                      initialValue: ingredient.quantity?.toString() ?? '',
+                      onChanged: (value) {
+                        final newIngredients = List<RecipeIngredient>.from(
+                          ingredients,
+                        );
+                        newIngredients[index] = RecipeIngredient(
+                          uid: ingredient.uid,
+                          name: ingredient.name,
+                          quantity: double.tryParse(value),
+                          unit: ingredient.unit,
+                        );
+                        ingredientsController.value = newIngredients;
+                      },
+                      decoration: const InputDecoration(
+                        labelText: 'Quantité',
+                        border: OutlineInputBorder(),
+                      ),
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(RegExp('[0-9.]')),
+                      ],
+                      keyboardType: TextInputType.number,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (value) {
+                        if (value != null &&
+                            value.isNotEmpty &&
+                            double.tryParse(value) == null) {
+                          return "La quantité doit être un nombre valide";
+                        }
+                        return null;
+                      },
+                      autofocus: index != 0 && ingredient.name.isEmpty,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  DropdownMenu(
+                    width: 120,
+                    initialSelection: ingredient.unit,
+                    label: const Text('Unité'),
+                    enableFilter: true,
+                    searchCallback: (entries, query) {
+                      if (query.isEmpty) return null;
+                      final index =
+                          entries.indexWhere((entry) => entry.label == query);
+
+                      return index != -1 ? index : null;
+                    },
+                    dropdownMenuEntries: [
+                      for (final unit in units)
+                        DropdownMenuEntry(
+                          value: unit,
+                          label: unit.label,
+                        ),
+                    ],
+                    onSelected: (value) {
+                      final newIngredients = List<RecipeIngredient>.from(
+                        ingredients,
+                      );
+                      newIngredients[index] = RecipeIngredient(
+                        uid: ingredient.uid,
+                        name: ingredient.name,
+                        quantity: ingredient.quantity,
+                        unit: value,
+                      );
+                      ingredientsController.value = newIngredients;
+                    },
+                  ),
+                  const SizedBox(width: 12),
                   if (index != 0 && index == ingredients.length - 1) ...[
                     const SizedBox(width: 12),
                     IconButton.outlined(
