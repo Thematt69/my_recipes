@@ -3,17 +3,17 @@ description: "Enregistrez et organisez vos recettes préférées avec facilité 
 
 publish_to: 'none'
 
-version: 0.1.2+4
+version: 0.2.0+5
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
 
 dependencies:
-  cloud_firestore: ^4.15.5
-  dynamic_color: ^1.6.9
+  cloud_firestore: ^4.15.6
+  dynamic_color: ^1.7.0
   equatable: ^2.0.5
-  firebase_auth: ^4.17.5
-  firebase_core: ^2.25.4
+  firebase_auth: ^4.17.6
+  firebase_core: ^2.25.5
   flutter:
     sdk: flutter
   flutter_native_splash: ^2.3.10

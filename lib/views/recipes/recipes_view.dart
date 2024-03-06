@@ -15,9 +15,7 @@ class RecipesView extends StatelessWidget {
         title: const Text('Mes recettes'),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          context.pushNamed(AppRoute.addRecipe.name);
-        },
+        onPressed: () => context.pushNamed(AppRoute.addRecipe.name),
         label: const Text('Ajouter une recette'),
         icon: const Icon(Icons.add),
       ),
@@ -43,6 +41,7 @@ class RecipesView extends StatelessWidget {
           }
 
           return ListView.builder(
+            padding: const EdgeInsets.only(bottom: 16 + 54 + 16),
             itemCount: recipes.length,
             itemBuilder: (context, index) => RecipeListTile(recipes[index]),
           );

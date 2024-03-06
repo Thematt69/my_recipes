@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
-import 'package:my_recipes/views/add_recipe/add_recipe_view.dart';
+import 'package:my_recipes/views/edit_recipe/edit_recipe_view.dart';
 import 'package:my_recipes/views/recipe/recipe_view.dart';
 import 'package:my_recipes/views/recipes/recipes_view.dart';
 
@@ -13,6 +13,7 @@ GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
 enum AppRoute {
   recipes('/recipes'),
   recipe(':uid'),
+  editRecipe('/edit-recipe/:uid'),
   addRecipe('/add-recipe');
 
   const AppRoute(this.path);
@@ -52,7 +53,15 @@ final goRouter = GoRouter(
     GoRoute(
       path: AppRoute.addRecipe.path,
       name: AppRoute.addRecipe.name,
-      builder: (context, state) => const AddRecipeView(),
+      builder: (context, state) => const EditRecipeView(recipeUid: null),
+    ),
+    GoRoute(
+      path: AppRoute.editRecipe.path,
+      name: AppRoute.editRecipe.name,
+      builder: (context, state) {
+        final recipeUid = state.pathParameters['uid'];
+        return EditRecipeView(recipeUid: recipeUid);
+      },
     ),
   ],
 );
