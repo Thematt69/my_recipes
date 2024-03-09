@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:logger/logger.dart';
 import 'package:uuid/uuid.dart';
 
 /// Litre(s) - e9XU3p3q6xqzi6CLA0ir
@@ -35,14 +36,23 @@ class Unit extends Equatable {
         );
 
   factory Unit.fromFirestore(Map<String, dynamic> json) {
-    return Unit(
-      uid: json[entryUid] as String,
-      label: json[entryLabel] as String,
-      masterUnit: json[entryMasterUnit] == null
-          ? null
-          : Unit.fromFirestore(json[entryMasterUnit] as Map<String, dynamic>),
-      masterFactor: json[entryMasterFactor] as double?,
-    );
+    try {
+      return Unit(
+        uid: json[entryUid] as String,
+        label: json[entryLabel] as String,
+        masterUnit: json[entryMasterUnit] == null
+            ? null
+            : Unit.fromFirestore(json[entryMasterUnit] as Map<String, dynamic>),
+        masterFactor: json[entryMasterFactor] as num?,
+      );
+    } catch (e, s) {
+      Logger().e(
+        'Error while parsing Unit from Firestore',
+        error: e,
+        stackTrace: s,
+      );
+      rethrow;
+    }
   }
 
   factory Unit.empty() => Unit(uid: const Uuid().v4(), label: '');
@@ -56,22 +66,31 @@ class Unit extends Equatable {
   final String uid;
   final String label;
   final Unit? masterUnit;
-  final double? masterFactor;
+  final num? masterFactor;
 
   Map<String, dynamic> toFirestore() {
-    return {
-      entryUid: uid,
-      entryLabel: label,
-      entryMasterUnit: masterUnit?.toFirestore(),
-      entryMasterFactor: masterFactor,
-    };
+    try {
+      return {
+        entryUid: uid,
+        entryLabel: label,
+        entryMasterUnit: masterUnit?.toFirestore(),
+        entryMasterFactor: masterFactor,
+      };
+    } catch (e, s) {
+      Logger().e(
+        'Error while converting Unit to Firestore',
+        error: e,
+        stackTrace: s,
+      );
+      rethrow;
+    }
   }
 
   Unit copyWith({
     String? uid,
     String? label,
     Unit? masterUnit,
-    double? masterFactor,
+    num? masterFactor,
   }) {
     return Unit(
       uid: uid ?? this.uid,

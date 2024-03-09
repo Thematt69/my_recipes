@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:logger/logger.dart';
 import 'package:my_recipes/models/unit.dart';
 import 'package:uuid/uuid.dart';
 
@@ -11,14 +12,23 @@ class RecipeIngredient extends Equatable {
   });
 
   factory RecipeIngredient.fromFirestore(Map<String, dynamic> json) {
-    return RecipeIngredient(
-      uid: json[entryUid] as String,
-      name: json[entryName] as String,
-      quantity: json[entryQuantity] as double?,
-      unit: json[entryUnit] != null
-          ? Unit.fromFirestore(json[entryUnit] as Map<String, dynamic>)
-          : null,
-    );
+    try {
+      return RecipeIngredient(
+        uid: json[entryUid] as String,
+        name: json[entryName] as String,
+        quantity: json[entryQuantity] as num?,
+        unit: json[entryUnit] != null
+            ? Unit.fromFirestore(json[entryUnit] as Map<String, dynamic>)
+            : null,
+      );
+    } catch (e, s) {
+      Logger().e(
+        'Error while parsing RecipeIngredient from Firestore',
+        error: e,
+        stackTrace: s,
+      );
+      rethrow;
+    }
   }
 
   factory RecipeIngredient.empty() => RecipeIngredient(
@@ -35,20 +45,31 @@ class RecipeIngredient extends Equatable {
 
   final String uid;
   final String name;
-  final double? quantity;
+  final num? quantity;
   final Unit? unit;
 
-  Map<String, dynamic> toFirestore() => {
+  Map<String, dynamic> toFirestore() {
+    try {
+      return {
         entryUid: uid,
         entryName: name,
         entryQuantity: quantity,
         entryUnit: unit?.toFirestore(),
       };
+    } catch (e, s) {
+      Logger().e(
+        'Error while converting RecipeIngredient to Firestore',
+        error: e,
+        stackTrace: s,
+      );
+      rethrow;
+    }
+  }
 
   RecipeIngredient copyWith({
     String? uid,
     String? name,
-    double? quantity,
+    num? quantity,
     Unit? unit,
   }) {
     return RecipeIngredient(
