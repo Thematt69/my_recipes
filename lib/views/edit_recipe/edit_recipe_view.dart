@@ -242,6 +242,7 @@ class _EditRecipeViewState extends State<EditRecipeView> {
                         decoration: const InputDecoration(
                           labelText: 'Source*',
                           border: OutlineInputBorder(),
+                          hintText: 'Site web, livre, etc.',
                         ),
                         keyboardType: TextInputType.url,
                         textCapitalization: TextCapitalization.sentences,
