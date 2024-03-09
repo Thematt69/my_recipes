@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:logger/logger.dart';
 import 'package:uuid/uuid.dart';
 
 class RecipeStep extends Equatable {
@@ -8,10 +9,19 @@ class RecipeStep extends Equatable {
   });
 
   factory RecipeStep.fromFirestore(Map<String, dynamic> json) {
-    return RecipeStep(
-      uid: json[entryUid] as String,
-      description: json[entryDescription] as String,
-    );
+    try {
+      return RecipeStep(
+        uid: json[entryUid] as String,
+        description: json[entryDescription] as String,
+      );
+    } catch (e, s) {
+      Logger().e(
+        'Error while parsing RecipeStep from Firestore',
+        error: e,
+        stackTrace: s,
+      );
+      rethrow;
+    }
   }
 
   factory RecipeStep.empty() =>
@@ -23,10 +33,21 @@ class RecipeStep extends Equatable {
   final String uid;
   final String description;
 
-  Map<String, dynamic> toFirestore() => {
+  Map<String, dynamic> toFirestore() {
+    try {
+      return {
         entryUid: uid,
         entryDescription: description,
       };
+    } catch (e, s) {
+      Logger().e(
+        'Error while converting RecipeStep to Firestore',
+        error: e,
+        stackTrace: s,
+      );
+      rethrow;
+    }
+  }
 
   RecipeStep copyWith({
     String? uid,

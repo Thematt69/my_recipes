@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:logger/logger.dart';
 import 'package:my_recipes/models/recipe_ingredient.dart';
 import 'package:my_recipes/models/recipe_step.dart';
 
@@ -16,21 +17,32 @@ class Recipe extends Equatable {
   });
 
   factory Recipe.fromFirestore(Map<String, dynamic> json) {
-    return Recipe(
-      uid: json[entryUid] as String,
-      title: json[entryTitle] as String,
-      portionCount: json[entryPortionCount] as int,
-      setupTime: json[entrySetupTime] as int?,
-      cookingTime: json[entryCookingTime] as int?,
-      standingTime: json[entryStandingTime] as int?,
-      ingredients: (json[entryIngredients] as List)
-          .map((e) => RecipeIngredient.fromFirestore(e as Map<String, dynamic>))
-          .toList(),
-      steps: (json[entrySteps] as List)
-          .map((e) => RecipeStep.fromFirestore(e as Map<String, dynamic>))
-          .toList(),
-      source: json[entrySource] as String,
-    );
+    try {
+      return Recipe(
+        uid: json[entryUid] as String,
+        title: json[entryTitle] as String,
+        portionCount: json[entryPortionCount] as int,
+        setupTime: json[entrySetupTime] as int?,
+        cookingTime: json[entryCookingTime] as int?,
+        standingTime: json[entryStandingTime] as int?,
+        ingredients: (json[entryIngredients] as List)
+            .map(
+              (e) => RecipeIngredient.fromFirestore(e as Map<String, dynamic>),
+            )
+            .toList(),
+        steps: (json[entrySteps] as List)
+            .map((e) => RecipeStep.fromFirestore(e as Map<String, dynamic>))
+            .toList(),
+        source: json[entrySource] as String,
+      );
+    } catch (e, s) {
+      Logger().e(
+        'Error while parsing Recipe from Firestore',
+        error: e,
+        stackTrace: s,
+      );
+      rethrow;
+    }
   }
 
   static const collectionName = 'recipes';
@@ -67,7 +79,9 @@ class Recipe extends Equatable {
     return null;
   }
 
-  Map<String, dynamic> toFirestore() => {
+  Map<String, dynamic> toFirestore() {
+    try {
+      return {
         entryUid: uid,
         entryTitle: title,
         entryPortionCount: portionCount,
@@ -78,6 +92,15 @@ class Recipe extends Equatable {
         entrySteps: steps.map((e) => e.toFirestore()).toList(),
         entrySource: source,
       };
+    } catch (e, s) {
+      Logger().e(
+        'Error while converting Recipe to Firestore',
+        error: e,
+        stackTrace: s,
+      );
+      rethrow;
+    }
+  }
 
   Recipe copyWith({
     String? uid,
