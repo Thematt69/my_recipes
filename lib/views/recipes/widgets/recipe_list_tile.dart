@@ -10,11 +10,19 @@ class RecipeListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget? subtitle;
+
+    if (recipe.totalTime.toTimeString != null) {
+      subtitle = Text(
+        "${recipe.totalTime.toTimeString!} | ${recipe.portionCount} portion(s)",
+      );
+    } else {
+      subtitle = Text("${recipe.portionCount} portion(s)");
+    }
+
     return ListTile(
       title: Text(recipe.title),
-      subtitle: recipe.totalTime.toTimeString == null
-          ? null
-          : Text(recipe.totalTime.toTimeString!),
+      subtitle: subtitle,
       trailing: const Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

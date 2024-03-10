@@ -37,7 +37,7 @@ class StepReorderableListView extends StatelessWidget {
 
             return Padding(
               key: ValueKey(step.uid),
-              padding: const EdgeInsets.symmetric(vertical: 8),
+              padding: const EdgeInsets.symmetric(vertical: 12),
               child: Row(
                 children: [
                   if (isReordering) ...[
