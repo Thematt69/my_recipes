@@ -50,3 +50,4 @@ flutter_launcher_icons:
 flutter_native_splash:
   color: "#fffbff"
   image: assets/images/menu_book.png
+  color_dark: "#201a1b"
