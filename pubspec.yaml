@@ -27,6 +27,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
+  flutter_launcher_icons: ^0.13.1
 
 flutter:
   uses-material-design: true
@@ -35,9 +36,18 @@ flutter:
     - assets/images/
     - assets/lottie/
 
+flutter_launcher_icons:
+  image_path: "assets/images/menu_book.png"
+  
+  android: false # generate to Android Studio
+
+  web:
+    generate: true
+    image_path: "assets/images/menu_book.png"
+    background_color: "#201a1b"
+    theme_color: "#fffbff"
+
 flutter_native_splash:
   color: "#fffbff"
-  image: assets/images/logo_maskable.png
-  
-  color_dark: "#201a18"
-  image_dark: assets/images/logo_maskable.png
+  image: assets/images/menu_book.png
+  color_dark: "#201a1b"
