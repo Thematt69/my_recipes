@@ -2,19 +2,7 @@
 <html lang="fr">
 
   <head>
-    <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
 
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
     <base href="$FLUTTER_BASE_HREF">
 
     <meta charset="UTF-8">
@@ -23,24 +11,29 @@
 
     <!-- iOS meta tags & icons -->
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#fffbff">
     <meta name="apple-mobile-web-app-title" content="Mes recettes de cuisine">
-    <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="icons/Icon-96.png">
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/Icon-192.png">
+    <link rel="apple-touch-icon" type="image/png" sizes="192x192" href="icons/Icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icons/Icon-512.png">
+    <link rel="apple-touch-icon" type="image/png" sizes="512x512" href="icons/Icon-512.png">
 
-    <title>Mes recettes de cuisine</title>
     <link rel="manifest" href="manifest.json">
 
+    <title>Mes recettes de cuisine</title>
+
+    <!-- Flutter Framework -->
     <script>
       // The value below is injected by flutter build, do not touch.
       const serviceWorkerVersion = null;
     </script>
     <!-- This script adds the flutter initialization JS code -->
-    <script src="flutter.js" defer></script>
+    <script src="flutter.js" defer=""></script>
 
     <!-- Flutter Splash Screen -->
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
     <style id="splash-screen-style">
       html {
         height: 100%
@@ -104,7 +97,7 @@
 
       @media (prefers-color-scheme: dark) {
         body {
-          background-color: #201a18;
+          background-color: #201a1b;
         }
       }
     </style>
@@ -131,6 +124,7 @@
       <img class="center" aria-hidden="true" src="splash/img/light-1x.png" alt="">
     </picture>
 
+    <!-- Flutter Framework -->
     <script>
       window.addEventListener('load', function (ev) {
         // Download main.dart.js

@@ -71,14 +71,12 @@ class MyApp extends StatelessWidget {
             title: 'Mes recettes',
             theme: ThemeData(
               colorScheme: lightDynamicColorScheme ??
-                  ColorScheme.fromSeed(
-                    seedColor: const Color(0xFFE45700),
-                  ),
+                  ColorScheme.fromSeed(seedColor: Colors.lightBlueAccent),
             ),
             darkTheme: ThemeData(
               colorScheme: darkDynamicColorScheme ??
                   ColorScheme.fromSeed(
-                    seedColor: const Color(0xFFE45700),
+                    seedColor: Colors.lightBlueAccent,
                     brightness: Brightness.dark,
                   ),
             ),
