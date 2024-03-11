@@ -13,7 +13,7 @@ dependencies:
   dynamic_color: ^1.7.0
   equatable: ^2.0.5
   firebase_auth: ^4.17.8
-  firebase_core: ^2.25.5
+  firebase_core: ^2.27.0
   flutter:
     sdk: flutter
   flutter_native_splash: ^2.3.10
