@@ -1,12 +1,12 @@
 name: my_recipes
 description: "Enregistrez et organisez vos recettes préférées avec facilité !"
 
-publish_to: 'none'
+publish_to: "none"
 
-version: 0.2.2+7
+version: 0.2.3+8
 
 environment:
-  sdk: '>=3.3.0 <4.0.0'
+  sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
   cloud_firestore: ^4.15.8
@@ -38,7 +38,7 @@ flutter:
 
 flutter_launcher_icons:
   image_path: "assets/images/menu_book.png"
-  
+
   android: false # generate to Android Studio
 
   web:
