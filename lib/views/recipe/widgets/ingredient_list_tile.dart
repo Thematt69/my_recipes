@@ -15,10 +15,9 @@ class IngredientListTile extends StatelessWidget {
 
     if (ingredient.quantity != null && ingredient.unit != null) {
       label =
-          "${ingredient.name} (${ingredient.quantity.toString().replaceAll(".", ",")} ${ingredient.unit!.label})";
+          "${ingredient.name} (${ingredient.quantity} ${ingredient.unit!.label})";
     } else if (ingredient.quantity != null) {
-      label =
-          "${ingredient.name} (${ingredient.quantity.toString().replaceAll(".", ",")})";
+      label = "${ingredient.name} (${ingredient.quantity})";
     } else {
       label = ingredient.name;
     }
