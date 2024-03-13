@@ -132,6 +132,7 @@ class IngredientReorderableListView extends StatelessWidget {
                               initialSelection: ingredient.unit,
                               label: const Text('Unité'),
                               enableFilter: true,
+                              menuHeight: 300,
                               searchCallback: (entries, query) {
                                 if (query.isEmpty) return null;
                                 final index = entries.indexWhere(
