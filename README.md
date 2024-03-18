@@ -1,6 +1,7 @@
 # my_recipes
 
 [![Flutter Analyze](https://github.com/Thematt69/my_recipes/actions/workflows/analyze.yml/badge.svg)](https://github.com/Thematt69/my_recipes/actions/workflows/analyze.yml)
+[![Build and Deploy](https://github.com/Thematt69/my_recipes/actions/workflows/builds.yml/badge.svg?branch=master)](https://github.com/Thematt69/my_recipes/actions/workflows/builds.yml)
 
 A new Flutter project.
 
