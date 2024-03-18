@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:logger/logger.dart';
+import 'package:my_recipes/extensions/int_extension.dart';
+import 'package:my_recipes/extensions/num_extension.dart';
 import 'package:my_recipes/models/recipe_ingredient.dart';
 import 'package:my_recipes/models/recipe_step.dart';
 
@@ -77,6 +79,56 @@ class Recipe extends Equatable {
       return Uri.tryParse(source);
     }
     return null;
+  }
+
+  String get shareDescription {
+    final description = StringBuffer(title)..write('\n\n');
+    if (setupTime != null) {
+      description
+        ..write('Temps de préparation : ${setupTime.toTimeString ?? 'N/A'}')
+        ..write('\n');
+    }
+    if (cookingTime != null) {
+      description
+        ..write('Temps de cuisson : ${cookingTime.toTimeString ?? 'N/A'}')
+        ..write('\n');
+    }
+    if (standingTime != null) {
+      description
+        ..write('Temps de repos : ${standingTime.toTimeString ?? 'N/A'}')
+        ..write('\n');
+    }
+    description
+      ..write('\n')
+      ..write('Ingrédients : (pour $portionCount portion(s))')
+      ..write('\n');
+    for (final ingredient in ingredients) {
+      if (ingredient.quantity != null && ingredient.unit != null) {
+        description.write(
+          '- ${ingredient.name} (${ingredient.quantity!.toQuantityString()} ${ingredient.unit!.label})',
+        );
+      } else if (ingredient.quantity != null) {
+        description.write(
+          '- ${ingredient.name} (${ingredient.quantity!.toQuantityString()})',
+        );
+      } else {
+        description.write('- ${ingredient.name}');
+      }
+      description.write('\n');
+    }
+    description
+      ..write('\n')
+      ..write('Étapes :')
+      ..write('\n');
+    for (final step in steps) {
+      description
+        ..write('- ${step.description}')
+        ..write('\n');
+    }
+    description
+      ..write('\n')
+      ..write('Source : $source');
+    return description.toString();
   }
 
   Map<String, dynamic> toFirestore() {

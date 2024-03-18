@@ -5,6 +5,7 @@ import 'package:my_recipes/blocs/store_bloc.dart';
 import 'package:my_recipes/extensions/int_extension.dart';
 import 'package:my_recipes/models/recipe.dart';
 import 'package:my_recipes/views/recipe/widgets/ingredient_list_tile.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class RecipeView extends StatelessWidget {
@@ -71,6 +72,14 @@ class RecipeView extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () async => Share.share(
+              recipe.shareDescription,
+              subject: recipe.title,
+            ),
+            tooltip: 'Partager la recette',
+            child: const Icon(Icons.share),
           ),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
