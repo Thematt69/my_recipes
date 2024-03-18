@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_recipes/extensions/num_extension.dart';
 import 'package:my_recipes/models/recipe_ingredient.dart';
 
 class IngredientListTile extends StatelessWidget {
@@ -15,10 +16,9 @@ class IngredientListTile extends StatelessWidget {
 
     if (ingredient.quantity != null && ingredient.unit != null) {
       label =
-          "${ingredient.name} (${ingredient.quantity.toString().replaceAll(".", ",")} ${ingredient.unit!.label})";
+          "${ingredient.name} (${ingredient.quantity!.toQuantityString()} ${ingredient.unit!.label})";
     } else if (ingredient.quantity != null) {
-      label =
-          "${ingredient.name} (${ingredient.quantity.toString().replaceAll(".", ",")})";
+      label = "${ingredient.name} (${ingredient.quantity!.toQuantityString()})";
     } else {
       label = ingredient.name;
     }

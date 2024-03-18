@@ -3,6 +3,6 @@ extension IntExtension on int? {
     if (this == null) return null;
     final hours = this! ~/ 60;
     final minutes = this! % 60;
-    return '${hours > 0 ? '$hours h ' : ''}${minutes > 0 ? '$minutes min' : ''}';
+    return '${hours > 0 ? '$hours h ' : ''}${minutes > 0 ? '$minutes min' : hours == 0 ? '0 min' : ''}';
   }
 }
