@@ -1,5 +1,7 @@
 # my_recipes
 
+[![Flutter Analyze](https://github.com/Thematt69/my_recipes/actions/workflows/analyze.yml/badge.svg)](https://github.com/Thematt69/my_recipes/actions/workflows/analyze.yml)
+
 A new Flutter project.
 
 ## Getting Started
