@@ -26,6 +26,12 @@ jobs:
           flutter-version: ${{ vars.FLUTTER_VERSION }}
           cache: true
           cache-key: flutter ${{ vars.FLUTTER_VERSION }}
+      - name: Setup Android NDK
+        uses: nttld/setup-ndk@v1.4.2
+        with:
+          ndk-version: r26d
+          link-to-sdk: true
+          local-cache: true
       - name: Configure Flutter
         run: |
           flutter config --no-analytics
