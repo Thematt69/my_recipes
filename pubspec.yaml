@@ -3,7 +3,7 @@ description: "Enregistrez et organisez vos recettes préférées avec facilité 
 
 publish_to: "none"
 
-version: 0.3.0+10
+version: 0.3.0+11
 
 environment:
   sdk: ">=3.3.0 <4.0.0"
