@@ -29,8 +29,7 @@ jobs:
       - name: Setup Android NDK
         uses: nttld/setup-ndk@v1.4.2
         with:
-          ndk-version: r26d
-          link-to-sdk: true
+          ndk-version: r25c
           local-cache: true
       - name: Configure Flutter
         run: |
