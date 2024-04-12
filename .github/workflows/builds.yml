@@ -26,6 +26,12 @@ jobs:
           flutter-version: ${{ vars.FLUTTER_VERSION }}
           cache: true
           cache-key: flutter ${{ vars.FLUTTER_VERSION }}
+      - name: Setup Android NDK
+        uses: nttld/setup-ndk@v1.4.2
+        with:
+          ndk-version: r26d
+          link-to-sdk: true
+          local-cache: true
       - name: Configure Flutter
         run: |
           flutter config --no-analytics
@@ -35,14 +41,14 @@ jobs:
       - name: Push build to Releases
         uses: actions/upload-artifact@v4.3.1
         with:
-          name: "build-release"
+          name: "build-release-appbundle"
           path: build/app/outputs/bundle/release/*.aab
       - name: Build APK Release
         run: flutter build apk --release --no-tree-shake-icons
       - name: Push build to Releases
         uses: actions/upload-artifact@v4.3.1
         with:
-          name: "build-release"
+          name: "build-release-apk"
           path: build/app/outputs/flutter-apk/*release.apk
 
   deploy:
