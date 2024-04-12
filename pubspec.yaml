@@ -10,18 +10,17 @@ environment:
 
 dependencies:
   cloud_firestore: ^4.16.1
-  dynamic_color: ^1.7.0
   equatable: ^2.0.5
   firebase_auth: ^4.19.1
   firebase_core: ^2.29.0
   flutter:
     sdk: flutter
   flutter_native_splash: ^2.4.0
-  go_router: ^13.2.3
+  go_router: ^13.2.4
   logger: ^2.2.0
   lottie: ^3.1.0
   share_plus: ^8.0.3
-  url_launcher: ^6.2.5
+  url_launcher: ^6.2.6
   uuid: ^4.4.0
 
 dev_dependencies:
@@ -38,17 +37,15 @@ flutter:
     - assets/lottie/
 
 flutter_launcher_icons:
-  image_path: "assets/images/menu_book.png"
-
   android: false # generate to Android Studio
 
   web:
     generate: true
     image_path: "assets/images/menu_book.png"
-    background_color: "#201a1b"
-    theme_color: "#fffbff"
+    theme_color: "#800020"
 
 flutter_native_splash:
-  color: "#fffbff"
-  image: assets/images/menu_book.png
-  color_dark: "#201a1b"
+  color: "#FCF8F8"
+  image: assets/images/menu_book.jpg
+  color_dark: "#1C1C1C"
+  image_dark: assets/images/menu_book_black.jpg

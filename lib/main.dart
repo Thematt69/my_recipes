@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:isolate';
 
-import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -64,27 +63,21 @@ class MyApp extends StatelessWidget {
       blocs: [
         StoreBloc(),
       ],
-      child: DynamicColorBuilder(
-        builder: (lightDynamicColorScheme, darkDynamicColorScheme) {
-          return MaterialApp.router(
-            debugShowCheckedModeBanner: false,
-            title: 'Mes recettes',
-            theme: ThemeData(
-              colorScheme: lightDynamicColorScheme ??
-                  ColorScheme.fromSeed(seedColor: Colors.lightBlueAccent),
-            ),
-            darkTheme: ThemeData(
-              colorScheme: darkDynamicColorScheme ??
-                  ColorScheme.fromSeed(
-                    seedColor: Colors.lightBlueAccent,
-                    brightness: Brightness.dark,
-                  ),
-            ),
-            routeInformationParser: goRouter.routeInformationParser,
-            routerDelegate: goRouter.routerDelegate,
-            routeInformationProvider: goRouter.routeInformationProvider,
-          );
-        },
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        title: 'Mes recettes',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF800020)),
+        ),
+        darkTheme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color(0xFF800020),
+            brightness: Brightness.dark,
+          ),
+        ),
+        routeInformationParser: goRouter.routeInformationParser,
+        routerDelegate: goRouter.routerDelegate,
+        routeInformationProvider: goRouter.routeInformationProvider,
       ),
     );
   }
