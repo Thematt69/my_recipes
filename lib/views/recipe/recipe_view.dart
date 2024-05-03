@@ -67,7 +67,7 @@ class RecipeView extends StatelessWidget {
                 onPressed: () => context.pushNamed(
                   AppRoute.editRecipe.name,
                   pathParameters: {
-                    "uid": recipe.uid,
+                    'uid': recipe.uid,
                   },
                 ),
               ),
@@ -88,15 +88,15 @@ class RecipeView extends StatelessWidget {
               children: [
                 if (recipe.setupTime != null)
                   Text(
-                    "Temps de préparation : ${recipe.setupTime.toTimeString}",
+                    'Temps de préparation : ${recipe.setupTime.toTimeString}',
                   ),
                 if (recipe.cookingTime != null)
                   Text(
-                    "Temps de cuisson : ${recipe.cookingTime.toTimeString}",
+                    'Temps de cuisson : ${recipe.cookingTime.toTimeString}',
                   ),
                 if (recipe.standingTime != null)
                   Text(
-                    "Temps de repos : ${recipe.standingTime.toTimeString}",
+                    'Temps de repos : ${recipe.standingTime.toTimeString}',
                   ),
                 const SizedBox(height: 16),
                 Row(
@@ -108,7 +108,7 @@ class RecipeView extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "${recipe.portionCount} portion(s)",
+                      '${recipe.portionCount} portion(s)',
                     ),
                   ],
                 ),
@@ -124,17 +124,17 @@ class RecipeView extends StatelessWidget {
                 for (final step in recipe.steps)
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 2),
-                    child: Text("- ${step.description}"),
+                    child: Text('- ${step.description}'),
                   ),
                 const SizedBox(height: 16),
                 if (recipe.sourceUri != null)
                   FilledButton.icon(
                     onPressed: () => launchUrl(recipe.sourceUri!),
                     icon: const Icon(Icons.open_in_new_outlined),
-                    label: const Text("Ouvrir la source web"),
+                    label: const Text('Ouvrir la source web'),
                   )
                 else
-                  Text("Source : ${recipe.source}"),
+                  Text('Source : ${recipe.source}'),
               ],
             ),
           ),

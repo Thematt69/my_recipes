@@ -1,10 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
+import 'package:my_recipes/fridge_firebase_options.dart';
 import 'package:my_recipes/views/edit_recipe/edit_recipe_view.dart';
 import 'package:my_recipes/views/recipe/recipe_view.dart';
 import 'package:my_recipes/views/recipes/recipes_view.dart';
+import 'package:my_recipes/views/sign_in/sign_in_page.dart';
 
 export 'package:go_router/go_router.dart';
 
@@ -14,7 +18,8 @@ enum AppRoute {
   recipes('/recipes'),
   recipe(':uid'),
   editRecipe('/edit-recipe/:uid'),
-  addRecipe('/add-recipe');
+  addRecipe('/add-recipe'),
+  signIn('/sign-in');
 
   const AppRoute(this.path);
 
@@ -22,6 +27,7 @@ enum AppRoute {
 }
 
 final goRouter = GoRouter(
+  restorationScopeId: 'fr.thematt69.my_recipes',
   navigatorKey: _navigatorKey,
   initialLocation: AppRoute.recipes.path,
   debugLogDiagnostics: kDebugMode,
@@ -34,7 +40,21 @@ final goRouter = GoRouter(
       ),
     ),
   ),
+  redirect: (context, state) {
+    final user = FirebaseAuth.instanceFor(
+      app: Firebase.app(FridgeFirebaseOptions.name),
+    ).currentUser;
+    if (user == null) {
+      return AppRoute.signIn.path;
+    }
+    return null;
+  },
   routes: [
+    GoRoute(
+      path: AppRoute.signIn.path,
+      name: AppRoute.signIn.name,
+      builder: (context, state) => const SignInPage(),
+    ),
     GoRoute(
       path: AppRoute.recipes.path,
       name: AppRoute.recipes.name,

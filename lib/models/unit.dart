@@ -32,7 +32,7 @@ class Unit extends Equatable {
   }) : assert(
           masterUnit == null && masterFactor == null ||
               masterUnit != null && masterFactor != null,
-          "Both masterUnit and masterFactor must be set or both must be null.",
+          'Both masterUnit and masterFactor must be set or both must be null.',
         );
 
   factory Unit.fromFirestore(Map<String, dynamic> json) {

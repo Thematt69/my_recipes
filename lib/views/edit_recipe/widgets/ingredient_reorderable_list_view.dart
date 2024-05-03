@@ -119,7 +119,7 @@ class IngredientReorderableListView extends StatelessWidget {
                                   if (value != null &&
                                       value.isNotEmpty &&
                                       double.tryParse(value) == null) {
-                                    return "La quantité doit être un nombre valide";
+                                    return 'La quantité doit être un nombre valide';
                                   }
                                   return null;
                                 },

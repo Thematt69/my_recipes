@@ -291,7 +291,7 @@ class _EditRecipeViewState extends State<EditRecipeView> {
                             } else if ((value!.startsWith('http') ||
                                     value.startsWith('www')) &&
                                 !RegExp(
-                                  r"((https?:www\.)|(https?:\/\/)|(www\.))[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9]{1,6}(\/[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)?",
+                                  r'((https?:www\.)|(https?:\/\/)|(www\.))[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9]{1,6}(\/[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)?',
                                   caseSensitive: false,
                                 ).hasMatch(value)) {
                               return 'La source doit être un lien valide';
