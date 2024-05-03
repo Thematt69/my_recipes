@@ -14,10 +14,10 @@ class RecipeListTile extends StatelessWidget {
 
     if (recipe.totalTime.toTimeString != null) {
       subtitle = Text(
-        "${recipe.totalTime.toTimeString!} | ${recipe.portionCount} portion(s)",
+        '${recipe.totalTime.toTimeString!} | ${recipe.portionCount} portion(s)',
       );
     } else {
-      subtitle = Text("${recipe.portionCount} portion(s)");
+      subtitle = Text('${recipe.portionCount} portion(s)');
     }
 
     return ListTile(

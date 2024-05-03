@@ -16,9 +16,9 @@ class IngredientListTile extends StatelessWidget {
 
     if (ingredient.quantity != null && ingredient.unit != null) {
       label =
-          "${ingredient.name} (${ingredient.quantity!.toQuantityString()} ${ingredient.unit!.label})";
+          '${ingredient.name} (${ingredient.quantity!.toQuantityString()} ${ingredient.unit!.label})';
     } else if (ingredient.quantity != null) {
-      label = "${ingredient.name} (${ingredient.quantity!.toQuantityString()})";
+      label = '${ingredient.name} (${ingredient.quantity!.toQuantityString()})';
     } else {
       label = ingredient.name;
     }
@@ -26,7 +26,7 @@ class IngredientListTile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: Text(
-        "- $label",
+        '- $label',
       ),
     );
   }

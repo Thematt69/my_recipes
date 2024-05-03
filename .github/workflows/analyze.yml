@@ -12,12 +12,22 @@ jobs:
     name: Analyze
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.1
-      - uses: subosito/flutter-action@v2.16.0
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          name: id_rsa
+          known_hosts: ${{ secrets.KNOWN_HOSTS }}
+      - name: Checkout code
+        uses: actions/checkout@v4.1.1
+      - name: Install Flutter SDK ${{ vars.FLUTTER_VERSION }}
+        uses: subosito/flutter-action@v2.16.0
         with:
           flutter-version: ${{ vars.FLUTTER_VERSION }}
           cache: true
           cache-key: flutter ${{ vars.FLUTTER_VERSION }}
-      - run: flutter config --no-analytics
-      - run: flutter pub get
-      - run: flutter analyze
+      - name: Flutter Analyze
+        run: |
+          flutter config --no-cli-animations --no-analytics
+          flutter pub get
+          flutter analyze

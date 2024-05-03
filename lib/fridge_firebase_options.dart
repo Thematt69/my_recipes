@@ -14,7 +14,9 @@ import 'package:flutter/foundation.dart'
 ///   options: DefaultFirebaseOptions.currentPlatform,
 /// );
 /// ```
-class DefaultFirebaseOptions {
+class FridgeFirebaseOptions {
+  static String get name => 'fridge';
+
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
       return _web;
@@ -50,19 +52,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions _web = FirebaseOptions(
-    apiKey: 'AIzaSyDEmdXNz967CZJ7_-WgpxCJrADSDKFyhic',
-    appId: '1:710665672703:web:f100405312fd358041b9ca',
-    messagingSenderId: '710665672703',
-    projectId: 'my-recipes-59079',
-    authDomain: 'my-recipes-59079.firebaseapp.com',
-    storageBucket: 'my-recipes-59079.appspot.com',
+    apiKey: String.fromEnvironment('FRIDGE_FIREBASE_WEB_KEY'),
+    appId: '1:581070356908:web:a92bd1d491fc5a04d4ba09',
+    messagingSenderId: '581070356908',
+    projectId: 'monfrigo-1b428',
+    authDomain: 'monfrigo-1b428.firebaseapp.com',
+    storageBucket: 'monfrigo-1b428.appspot.com',
   );
 
   static const FirebaseOptions _android = FirebaseOptions(
-    apiKey: 'AIzaSyATJwPFFVpQLAW5U3WFRPP51auMCHqsx8U',
-    appId: '1:710665672703:android:1c90eb36cb4691cd41b9ca',
-    messagingSenderId: '710665672703',
-    projectId: 'my-recipes-59079',
-    storageBucket: 'my-recipes-59079.appspot.com',
+    apiKey: String.fromEnvironment('FRIDGE_FIREBASE_ANDROID_KEY'),
+    appId: '1:581070356908:android:312584a8de5b155fd4ba09',
+    messagingSenderId: '581070356908',
+    projectId: 'monfrigo-1b428',
+    storageBucket: 'monfrigo-1b428.appspot.com',
   );
 }
